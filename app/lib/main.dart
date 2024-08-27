@@ -1,5 +1,5 @@
+import 'package:app/screens/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:app/screens/welcome.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,6 +8,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: WelcomeScreen());
+    return MaterialApp(home: SignUpScreen());
   }
 }

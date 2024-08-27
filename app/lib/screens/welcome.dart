@@ -13,7 +13,6 @@ class WelcomeScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 40.0,
-              horizontal: 20.0,
             ),
             child: Center(
               child: Column(

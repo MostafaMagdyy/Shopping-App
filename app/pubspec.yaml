@@ -65,6 +65,13 @@ flutter:
     - assets/Welcome_1.png
     - assets/Welcome_2.png
     - assets/Mool.png
+    - assets/auth_cover.png
+    - assets/Google.png
+    - assets/Apple.png
+    - assets/Facebook.png
+    - assets/KSA.png
+    - assets/UAE.png
+    - assets/Egypt.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
