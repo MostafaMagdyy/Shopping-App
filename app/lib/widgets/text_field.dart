@@ -16,15 +16,14 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white, // Background color
-        borderRadius: BorderRadius.circular(16.0), // Set border radius
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.0),
       ),
       child: TextFormField(
         obscureText: obscureText,
         decoration: InputDecoration(
           labelText: labelText,
-          border: InputBorder.none, // No border
-          // Add padding from top and left
+          border: InputBorder.none,
           contentPadding: EdgeInsets.only(top: 16.0, left: 14.0),
         ),
         validator: validator,
@@ -32,4 +31,3 @@ class CustomTextFormField extends StatelessWidget {
     );
   }
 }
-  
