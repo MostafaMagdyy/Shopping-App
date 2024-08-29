@@ -1,10 +1,9 @@
-import 'package:app/screens/sign_in.dart';
+import 'package:app/screens/forget_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:app/screens/welcome.dart';
 import 'package:app/widgets/text_field.dart';
 import 'package:app/widgets/button.dart';
-import 'package:app/widgets/country_bottom_sheet.dart';
 
 const TextStyle baseTextStyle = TextStyle(
   fontFamily: 'Roboto',
@@ -13,7 +12,15 @@ const TextStyle baseTextStyle = TextStyle(
   color: Colors.black,
 );
 
-class SignUpScreen extends StatelessWidget {
+const TextStyle forgetPasswordStyle = TextStyle(
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w600,
+  fontSize: 12.0,
+  height: 16 / 12,
+  color: Color(0xFF33CCCC),
+);
+
+class SignInScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? _selectedCountryCode = "+1";
 
@@ -89,21 +96,21 @@ class SignUpScreen extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: 'Create Account\n',
+                            text: 'Sign In\n',
                             style: TextStyle(
                               fontFamily: 'Roboto',
                               fontWeight: FontWeight.bold,
-                              fontSize: 24.0,
+                              fontSize: 32.0,
                               height: 28.13 / 24,
                               color: Colors.white,
                             ),
                           ),
                           TextSpan(
-                            text: 'Start shopping now',
+                            text: 'Welcome !',
                             style: TextStyle(
                               fontFamily: 'Roboto',
                               fontWeight: FontWeight.bold,
-                              fontSize: 24.0,
+                              fontSize: 32.0,
                               height: 28.13 / 24,
                               color: Colors.white,
                             ),
@@ -132,25 +139,6 @@ class SignUpScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomTextFormField(
-                            labelText: 'First Name',
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your first name';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 16.0),
-                          CustomTextFormField(
-                            labelText: 'Last Name',
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your last name';
-                              }
-                              return null;
-                            },
-                          ),
                           SizedBox(height: 16.0),
                           CustomTextFormField(
                             labelText: 'Email',
@@ -162,63 +150,15 @@ class SignUpScreen extends StatelessWidget {
                             },
                           ),
                           SizedBox(height: 16.0),
-                          GestureDetector(
-                            onTap: () => showCountryCodeBottomSheet(
-                              context,
-                              _selectedCountryCode,
-                              (String selectedCode) {
-                                _selectedCountryCode = selectedCode;
-                              },
-                            ),
-                            child: Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 16.0, horizontal: 14.0),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16.0),
-                              ),
-                              child: Text(
-                                'Country',
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 16.0),
                           Row(
                             children: [
                               Expanded(
-                                flex: 1,
-                                child: GestureDetector(
-                                  onTap: () => showCountryCodeBottomSheet(
-                                    context,
-                                    _selectedCountryCode,
-                                    (String selectedCode) {
-                                      _selectedCountryCode = selectedCode;
-                                    },
-                                  ),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 16.0, horizontal: 14.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(16.0),
-                                    ),
-                                    child: Text(
-                                      _selectedCountryCode ?? '+1',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 10.0),
-                              Expanded(
-                                flex: 2,
                                 child: CustomTextFormField(
-                                  labelText: 'Mobile Number',
+                                  labelText: 'Password',
+                                  obscureText: true,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter your mobile number';
+                                      return 'Please enter your password';
                                     }
                                     return null;
                                   },
@@ -227,22 +167,33 @@ class SignUpScreen extends StatelessWidget {
                             ],
                           ),
                           SizedBox(height: 16.0),
-                          CustomTextFormField(
-                            labelText: 'Password',
-                            obscureText: true,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
-                              }
-                              return null;
-                            },
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ForgetPassword()),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    'Forget Password?',
+                                    style: forgetPasswordStyle,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 16.0),
+                          SizedBox(height: 20),
                           CustomButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {}
                             },
-                            text: 'Sign Up',
+                            text: 'Sign In',
                           ),
                           SizedBox(height: 20.0),
                           Row(
@@ -252,22 +203,17 @@ class SignUpScreen extends StatelessWidget {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: 'Already Have Account? ',
+                                      text: 'Don’t Have account ?',
                                       style: baseTextStyle,
                                     ),
                                     TextSpan(
-                                      text: 'Login',
+                                      text: 'signup',
                                       style: baseTextStyle.copyWith(
                                         decoration: TextDecoration.underline,
                                       ),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SignInScreen()),
-                                          );
+                                          // Handle login tap
                                         },
                                     ),
                                   ],
@@ -337,14 +283,14 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20.0),
+                          SizedBox(height: 90.0),
                         ],
                       ),
                     ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -1,5 +1,8 @@
 import 'package:app/screens/auth.dart';
+import 'package:app/screens/verification.dart';
 import 'package:flutter/material.dart';
+import 'package:app/screens/forget_password.dart';
+import 'package:app/screens/sign_in.dart';
 
 void main() {
   runApp(MyApp());
