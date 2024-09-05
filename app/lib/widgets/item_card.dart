@@ -4,15 +4,31 @@ class ItemCard extends StatefulWidget {
   final String imagePath;
   final double price;
   final String text;
+  final String discount;
+  final bool bestSellers;
+  final bool isFavorite;
 
-  ItemCard({required this.imagePath, required this.price, required this.text});
+  ItemCard({
+    required this.imagePath,
+    required this.price,
+    required this.text,
+    required this.discount,
+    this.bestSellers = false,
+    this.isFavorite = false,
+  });
 
   @override
   _ItemCardState createState() => _ItemCardState();
 }
 
 class _ItemCardState extends State<ItemCard> {
-  bool isFavorited = false;
+  late bool isFavorited;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorited = widget.isFavorite;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +54,6 @@ class _ItemCardState extends State<ItemCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 190,
                 height: 180,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
@@ -78,20 +93,45 @@ class _ItemCardState extends State<ItemCard> {
               ),
             ],
           ),
+          if (widget.bestSellers)
+            Positioned(
+              top: 17,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFFF42C2C),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Text(
+                  '${widget.discount}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
           Positioned(
             top: 12,
             left: 138,
-            child: IconButton(
-              icon: Icon(
-                Icons.favorite,
-                color: isFavorited ? Colors.red : Colors.white,
-                size: 32,
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
               ),
-              onPressed: () {
-                setState(() {
-                  isFavorited = !isFavorited;
-                });
-              },
+              child: IconButton(
+                icon: Icon(
+                  Icons.favorite,
+                  color: isFavorited ? Colors.black : Colors.grey,
+                  size: 32,
+                ),
+                onPressed: () {
+                  setState(() {
+                    isFavorited = !isFavorited;
+                  });
+                },
+              ),
             ),
           ),
           Positioned(
@@ -103,7 +143,7 @@ class _ItemCardState extends State<ItemCard> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(8),
-                  bottomLeft: Radius.circular(8),
+                  bottomRight: Radius.circular(16),
                 ),
                 color: Colors.black,
               ),

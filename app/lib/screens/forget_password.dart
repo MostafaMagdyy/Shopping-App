@@ -36,9 +36,7 @@ class ForgetPassword extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 16, top: 16),
-                  child: CustomBackNavigation(
-                    destinationScreen: WelcomeScreen(),
-                  ),
+                  child: CustomBackNavigation(),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 16, top: 24, bottom: 24),

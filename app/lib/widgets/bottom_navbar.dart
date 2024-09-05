@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:app/screens/categories.dart';
+import 'package:app/screens/new_arrival.dart';
 
 class CustomBottomNavBar extends StatefulWidget {
   final List<String> icons;
+  final int initialIndex;
 
   const CustomBottomNavBar({
     Key? key,
     required this.icons,
+    this.initialIndex = 0,
   }) : super(key: key);
 
   @override
@@ -13,38 +17,75 @@ class CustomBottomNavBar extends StatefulWidget {
 }
 
 class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+  }
+
+  void _onItemTapped(int index) async {
+    if (index == 1) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CategoriesScreen()),
+      );
+      setState(() {
+        _selectedIndex = 0;
+      });
+    } else if (index == 3) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => NewArrivalScreen(screenType: 'myList'),
+        ),
+      );
+      setState(() {
+        _selectedIndex = 0;
+      });
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 72,
-      child: BottomNavigationBar(
-        backgroundColor: Color(0xFF292D32),
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: widget.icons
-            .asMap()
-            .entries
-            .map(
-              (entry) => BottomNavigationBarItem(
-                icon: Image.asset(
-                  entry.value,
-                  color:
-                      _selectedIndex == entry.key ? Colors.blue : Colors.grey,
-                  height: 24,
-                ),
-                label: '',
-              ),
-            )
-            .toList(),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+      child: Container(
+        height: 72,
+        decoration: BoxDecoration(
+          color: Color(0xFF292D32),
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16.0),
+          child: BottomNavigationBar(
+            backgroundColor: Color(0xFF292D32),
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            items: widget.icons
+                .asMap()
+                .entries
+                .map(
+                  (entry) => BottomNavigationBarItem(
+                    icon: Image.asset(
+                      entry.value,
+                      color: _selectedIndex == entry.key
+                          ? Colors.blue
+                          : Colors.grey,
+                      height: 24,
+                    ),
+                    label: '',
+                  ),
+                )
+                .toList(),
+          ),
+        ),
       ),
     );
   }

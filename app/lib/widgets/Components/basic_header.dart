@@ -1,13 +1,11 @@
-import 'package:app/screens/welcome.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:app/widgets/navigation_icon.dart';
+import 'package:app/constants/constants.dart';
 
-class CustomHeader extends StatelessWidget {
+class BasicHeader extends StatelessWidget {
   final String headerText;
   final Widget? rightWidget;
 
-  const CustomHeader({
+  const BasicHeader({
     Key? key,
     required this.headerText,
     this.rightWidget,
@@ -16,20 +14,14 @@ class CustomHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 16, top: 4, bottom: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          CustomBackNavigation(),
-          SizedBox(width: 16),
           Expanded(
             child: Text(
               headerText,
-              style: GoogleFonts.roboto(
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-                height: 18.75 / 16,
-                letterSpacing: 0.05,
+              style: AppConstants.headerStyle.copyWith(
                 color: Colors.white,
               ),
             ),

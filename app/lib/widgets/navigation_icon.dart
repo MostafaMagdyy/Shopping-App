@@ -1,37 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomBackNavigation extends StatelessWidget {
-  final Widget destinationScreen;
-
-  const CustomBackNavigation({Key? key, required this.destinationScreen})
-      : super(key: key);
+  const CustomBackNavigation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                destinationScreen,
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              const begin = Offset(-1.0, 0.0);
-              const end = Offset.zero;
-              const curve = Curves.easeIn;
-
-              final tween =
-                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-              final offsetAnimation = animation.drive(tween);
-
-              return SlideTransition(
-                position: offsetAnimation,
-                child: child,
-              );
-            },
-            transitionDuration: const Duration(milliseconds: 400),
-          ),
-        );
+        Navigator.of(context).pop();
       },
       child: Container(
         width: 24.0,

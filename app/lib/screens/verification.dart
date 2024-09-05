@@ -84,9 +84,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 padding: EdgeInsets.only(left: 16, top: 16, bottom: 16),
                 child: Row(
                   children: [
-                    CustomBackNavigation(
-                      destinationScreen: WelcomeScreen(),
-                    ),
+                    CustomBackNavigation(),
                     SizedBox(width: 16),
                     Text(
                       'Verification',

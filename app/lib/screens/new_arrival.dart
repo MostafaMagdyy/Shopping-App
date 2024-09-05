@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:app/widgets/custom_header.dart';
 import 'package:app/widgets/Arrivals/categories.dart';
 import 'package:app/widgets/Arrivals/grid_items.dart';
+import 'package:app/screens/filter.dart';
 
 class NewArrivalScreen extends StatefulWidget {
+  final String screenType;
+
+  NewArrivalScreen({Key? key, required this.screenType}) : super(key: key);
+
   @override
   _NewArrivalScreenState createState() => _NewArrivalScreenState();
 }
 
 class _NewArrivalScreenState extends State<NewArrivalScreen> {
   bool _isSearching = false;
-  String _selectedSortOption = 'New Arrival';
+  String _selectedSortOption = 'Sort by';
 
   void _showSortBottomSheet() {
     showModalBottomSheet(
@@ -29,17 +34,10 @@ class _NewArrivalScreenState extends State<NewArrivalScreen> {
     );
   }
 
-  void _showFilterBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          height: 300,
-          child: Center(
-            child: Text('Filter options go here'),
-          ),
-        );
-      },
+  void _showFilterScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FilterScreen()),
     );
   }
 
@@ -64,7 +62,8 @@ class _NewArrivalScreenState extends State<NewArrivalScreen> {
               Container(
                 height: 60,
                 child: CustomHeader(
-                  headerText: 'New Arrival',
+                  headerText:
+                      widget.screenType == 'myList' ? 'My List' : 'New Arrival',
                   rightWidget: IconButton(
                     icon: Icon(Icons.search, color: Colors.white, size: 28.0),
                     onPressed: () {
@@ -80,7 +79,7 @@ class _NewArrivalScreenState extends State<NewArrivalScreen> {
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 245, 245, 245),
+                    color: Color.fromARGB(255, 230, 230, 230),
                   ),
                   child: Column(
                     children: [
@@ -93,6 +92,9 @@ class _NewArrivalScreenState extends State<NewArrivalScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 NewArrivalGrid(
+                                  type: widget.screenType == 'myList'
+                                      ? true
+                                      : false,
                                   numberOfRows: 3,
                                 ),
                               ],
@@ -136,7 +138,7 @@ class _NewArrivalScreenState extends State<NewArrivalScreen> {
                             ),
                             Expanded(
                               child: InkWell(
-                                onTap: _showFilterBottomSheet,
+                                onTap: _showFilterScreen,
                                 child: Container(
                                   padding: EdgeInsets.symmetric(vertical: 16),
                                   child: Row(

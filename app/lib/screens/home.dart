@@ -3,6 +3,8 @@ import 'package:app/widgets/items_container.dart';
 import 'package:app/widgets/clothes_category.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:app/widgets/bottom_navbar.dart';
+import 'package:app/constants/constants.dart';
+import 'package:app/screens/search.dart';
 
 TextStyle discountTextStyle = TextStyle(
   fontFamily: 'Roboto',
@@ -29,8 +31,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentImageIndex = 0;
-  bool _isSearching = false;
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -40,53 +40,26 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Color(0xFF2C2C2C),
           title: Row(
             children: [
-              if (!_isSearching)
-                Image.asset(
-                  'assets/MOOL_home.png',
-                  width: 94,
-                  height: 28,
-                ),
-              if (!_isSearching) Spacer(),
-              Expanded(
-                child: _isSearching
-                    ? Container(
-                        height: 40.0,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8.0, vertical: 1),
-                        decoration: BoxDecoration(
-                          color: Color(0xFF616161),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(Icons.search, color: Colors.white),
-                            SizedBox(width: 8.0),
-                            Expanded(
-                              child: TextField(
-                                style: TextStyle(color: Colors.white),
-                                decoration: InputDecoration(
-                                  hintText: 'What are you looking for ?',
-                                  hintStyle: searchPlaceholderStyle,
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(bottom: 15.0),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : Container(),
+              Image.asset(
+                'assets/MOOL_home.png',
+                width: 94,
+                height: 28,
               ),
-              if (!_isSearching)
-                  IconButton(
-                    icon: Icon(Icons.search, color: Colors.white, size: 28.0),
-                    onPressed: () {
-                      setState(() {
-                        _isSearching = !_isSearching;
-                      });
+              Spacer(),
+              IconButton(
+                icon: Icon(Icons.search, color: Colors.white, size: 28.0),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        insetPadding: EdgeInsets.zero,
+                        child: SearchScreen(),
+                      );
                     },
-                  ),
+                  );
+                },
+              ),
               IconButton(
                 icon: Icon(Icons.notifications_outlined,
                     color: Colors.white, size: 24.0),
@@ -108,28 +81,37 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        body: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
+        body: Stack(
           children: [
-            _buildTabContent([
-              'SALE ',
-              'View All',
-              'Dresses',
-              'Tops',
-              'Bottoms',
-              'T-Shirts',
-              'Test',
-            ]),
-            _buildTabContent(['User A', 'User B', 'User C']),
-          ],
-        ),
-        bottomNavigationBar: CustomBottomNavBar(
-          icons: [
-            'assets/home_navbar1.png',
-            'assets/home_navbar2.png',
-            'assets/home_navbar3.png',
-            'assets/home_navbar4.png',
-            'assets/home_navbar5.png',
+            TabBarView(
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                _buildTabContent([
+                  'SALE ',
+                  'View All',
+                  'Dresses',
+                  'Tops',
+                  'Bottoms',
+                  'T-Shirts',
+                  'Test',
+                ]),
+                _buildTabContent(['User A', 'User B', 'User C']),
+              ],
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: CustomBottomNavBar(
+                icons: [
+                  'assets/home_navbar1.png',
+                  'assets/home_navbar2.png',
+                  'assets/home_navbar3.png',
+                  'assets/home_navbar4.png',
+                  'assets/home_navbar5.png',
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -140,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       child: Container(
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 245, 245, 245),
+          color: Color.fromARGB(255, 230, 230, 230),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -266,16 +248,16 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 20),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 360,
-                  height: 224,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    image: DecorationImage(
-                      image: AssetImage('assets/brands.png'),
-                      fit: BoxFit.cover,
+                Expanded(
+                  child: Container(
+                    height: 224,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      image: DecorationImage(
+                        image: AssetImage('assets/brands.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -324,6 +306,9 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 20,
             ),
             ItemsSection(sectionHeader: 'Best Sellers'),
+            SizedBox(
+              height: 150,
+            )
           ],
         ),
       ),

@@ -31,34 +31,30 @@ class NotificationScreen extends StatelessWidget {
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 245, 245, 245),
+                    color: Color.fromARGB(255, 230, 230, 230),
                   ),
                   child: SingleChildScrollView(
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8, vertical: 32),
-                      child: Column(
-                        children: [
-                          NotificationItem(
-                            imageUrl: 'assets/Notification_icon.png',
-                            message:
-                                "We thought you’d like a new winter collections",
-                            time: "3 days Ago",
-                          ),
-                          NotificationItem(
-                            imageUrl: 'assets/Notification_icon.png',
-                            message:
-                                "We thought you’d like a new winter collections",
-                            time: "3 days Ago",
-                          ),
-                          NotificationItem(
-                            imageUrl: 'assets/Notification_icon.png',
-                            message:
-                                "We thought you’d like a new winter collections",
-                            time: "3 days Ago",
-                          ),
-                        ],
-                      ),
+                    child: Column(
+                      children: [
+                        NotificationItem(
+                          imageUrl: 'assets/Notification_icon.png',
+                          message:
+                              "We thought you’d like a new winter collections",
+                          time: "3 days Ago",
+                        ),
+                        NotificationItem(
+                          imageUrl: 'assets/Notification_icon.png',
+                          message:
+                              "We thought you’d like a new winter collections",
+                          time: "3 days Ago",
+                        ),
+                        NotificationItem(
+                          imageUrl: 'assets/Notification_icon.png',
+                          message:
+                              "We thought you’d like a new winter collections",
+                          time: "3 days Ago",
+                        ),
+                      ],
                     ),
                   ),
                 ),
