@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
-          home: CartScreen(),
+          home: HomeScreen(),
           routes: {
             '/cart': (context) => CartScreen(),
           },

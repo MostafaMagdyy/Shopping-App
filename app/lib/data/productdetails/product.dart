@@ -18,6 +18,9 @@ final List<Product> productList = [
     fabric: '100% Cotton',
     modelWearingSize: 'M',
     shape: 'Regular Fit',
+    isBestSeller: true,
+    isNewArrival: false,
+    discount: 25,
     reviews: [
       Review(
         username: 'JohnDoe',
@@ -49,10 +52,13 @@ final List<Product> productList = [
     description:
         'Stylish slim fit jeans that offer both comfort and a modern look.',
     productCode: 'SFJ002',
+    discount: 20,
     brand: 'DenimCo',
     fabric: '98% Cotton, 2% Elastane',
     modelWearingSize: '32',
     shape: 'Slim Fit',
+    isBestSeller: false,
+    isNewArrival: true,
     reviews: [
       Review(
         username: 'FashionLover',
@@ -81,6 +87,9 @@ final List<Product> productList = [
     fabric: 'Synthetic mesh upper, Rubber sole',
     modelWearingSize: '10',
     shape: 'Athletic Fit',
+    discount: 25,
+    isBestSeller: false,
+    isNewArrival: true,
     reviews: [
       Review(
         username: 'RunnerPro',

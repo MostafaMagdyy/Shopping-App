@@ -21,21 +21,21 @@ class NewArrivalGrid extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Row(
                   children: [
-                    ItemCard(
-                      imagePath: 'assets/cardimage.png',
-                      price: 2500,
-                      text: 'Item Name',
-                      discount: '20% OFF',
-                      isFavorite: type,
-                    ),
-                    SizedBox(width: 16),
-                    ItemCard(
-                      imagePath: 'assets/cardimage.png',
-                      price: 2500,
-                      text: 'Item Name',
-                      discount: '20% OFF',
-                      isFavorite: type,
-                    ),
+                    // ItemCard(
+                    //   imagePath: 'assets/cardimage.png',
+                    //   price: 2500,
+                    //   text: 'Item Name',
+                    //   discount: '20% OFF',
+                    //   isFavorite: type,
+                    // ),
+                    // SizedBox(width: 16),
+                    // ItemCard(
+                    //   imagePath: 'assets/cardimage.png',
+                    //   price: 2500,
+                    //   text: 'Item Name',
+                    //   discount: '20% OFF',
+                    //   isFavorite: type,
+                    // ),
                     SizedBox(width: 16),
                   ],
                 ),

@@ -34,24 +34,28 @@ class Product {
   final String modelWearingSize;
   final String shape;
   final List<Review> reviews;
-
-  Product({
-    required this.id,
-    required this.name,
-    required this.imageUrl,
-    required this.isFavorite,
-    required this.price,
-    required this.rating,
-    required this.availableSizes,
-    required this.availableColors,
-    required this.description,
-    required this.productCode,
-    required this.brand,
-    required this.fabric,
-    required this.modelWearingSize,
-    required this.shape,
-    required this.reviews,
-  });
+  final bool isNewArrival;
+  final bool isBestSeller;
+  final int discount;
+  Product(
+      {required this.id,
+      required this.name,
+      required this.imageUrl,
+      required this.isFavorite,
+      required this.price,
+      required this.rating,
+      required this.availableSizes,
+      required this.availableColors,
+      required this.description,
+      required this.productCode,
+      required this.brand,
+      required this.fabric,
+      required this.modelWearingSize,
+      required this.shape,
+      required this.reviews,
+      required this.isBestSeller,
+      required this.discount,
+      required this.isNewArrival});
 
   List<int> getStarRatings() {
     List<int> starCounts = List.filled(5, 0);

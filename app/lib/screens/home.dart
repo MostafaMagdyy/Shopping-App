@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:app/cubit/product_cubit.dart';
 import 'package:app/widgets/items_container.dart';
 import 'package:app/widgets/clothes_category.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:app/widgets/bottom_navbar.dart';
-import 'package:app/constants/constants.dart';
-import 'package:app/screens/search.dart';
+import 'package:app/models/product.dart';
 
 TextStyle discountTextStyle = TextStyle(
   fontFamily: 'Roboto',
@@ -31,94 +32,79 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentImageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProductCubit>().fetchAllProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xFF2C2C2C),
-          title: Row(
-            children: [
-              Image.asset(
-                'assets/MOOL_home.png',
-                width: 94,
-                height: 28,
-              ),
-              Spacer(),
-              IconButton(
-                icon: Icon(Icons.search, color: Colors.white, size: 28.0),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Dialog(
-                        insetPadding: EdgeInsets.zero,
-                        child: SearchScreen(),
-                      );
-                    },
-                  );
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.notifications_outlined,
-                    color: Colors.white, size: 24.0),
-                onPressed: () {},
-              ),
-            ],
-          ),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(48.0),
-            child: TabBar(
-              indicatorColor: Colors.white,
-              tabs: [
-                Tab(text: "WOMEN"),
-                Tab(text: "MEN"),
-              ],
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.grey,
-              indicatorWeight: 3.0,
-            ),
-          ),
-        ),
-        body: Stack(
-          children: [
-            TabBarView(
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                _buildTabContent([
-                  'SALE ',
-                  'View All',
-                  'Dresses',
-                  'Tops',
-                  'Bottoms',
-                  'T-Shirts',
-                  'Test',
-                ]),
-                _buildTabContent(['User A', 'User B', 'User C']),
-              ],
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: CustomBottomNavBar(
-                icons: [
-                  'assets/home_navbar1.png',
-                  'assets/home_navbar2.png',
-                  'assets/home_navbar3.png',
-                  'assets/home_navbar4.png',
-                  'assets/home_navbar5.png',
+    return BlocBuilder<ProductCubit, ProductState>(
+      builder: (context, state) {
+        if (state.isLoading) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state.error != null) {
+          return Center(child: Text(state.error!));
+        } else if (state.products != null) {
+          final newArrivals =
+              state.products!.where((product) => product.isNewArrival).toList();
+          final bestSellers =
+              state.products!.where((product) => product.isBestSeller).toList();
+
+          return DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              appBar: AppBar(),
+              body: Stack(
+                children: [
+                  TabBarView(
+                    physics: NeverScrollableScrollPhysics(),
+                    children: [
+                      _buildTabContent(
+                        [
+                          'SALE ',
+                          'View All',
+                          'Dresses',
+                          'Tops',
+                          'Bottoms',
+                          'T-Shirts',
+                        ],
+                        newArrivals, // Pass the filtered list of new arrivals
+                      ),
+                      _buildTabContent(
+                        ['User A', 'User B', 'User C'],
+                        bestSellers, // Pass the filtered list of best sellers
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: CustomBottomNavBar(
+                      icons: [
+                        'assets/home_navbar1.png',
+                        'assets/home_navbar2.png',
+                        'assets/home_navbar3.png',
+                        'assets/home_navbar4.png',
+                        'assets/home_navbar5.png',
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
+          );
+        }
+
+        return Container();
+      },
     );
   }
 
-  Widget _buildTabContent(List<String> categories) {
+  Widget _buildTabContent(List<String> categories, List<Product> products) {
     return SingleChildScrollView(
       child: Container(
         decoration: BoxDecoration(
@@ -266,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 20,
             ),
-            ItemsSection(sectionHeader: 'New Arrival'),
+            ItemsSection(sectionHeader: 'New Arrival', products: newArrivals),
             SizedBox(
               height: 30,
             ),
@@ -305,10 +291,10 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 20,
             ),
-            ItemsSection(sectionHeader: 'Best Sellers'),
+            ItemsSection(sectionHeader: 'Best Sellers', products: bestSellers),
             SizedBox(
               height: 150,
-            )
+            ),
           ],
         ),
       ),
