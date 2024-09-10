@@ -22,7 +22,7 @@ class CustomHeader extends StatelessWidget {
         children: [
           CustomBackNavigation(),
           SizedBox(width: 16),
-          Expanded(
+          Expanded(/*  */
             child: Text(
               headerText,
               style: GoogleFonts.roboto(

@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.0.0
+  intl: ^0.17.0
   google_fonts: ^4.0.0
   carousel_slider: ^5.0.0
 
@@ -67,7 +69,6 @@ flutter:
     - assets/Mool_Splash.png
     - assets/Ellipse_Splash.png
     - assets/Ellipse_Splash2.png
-
     - assets/Welcome_1.png
     - assets/Welcome_2.png
     - assets/Mool.png
@@ -94,6 +95,11 @@ flutter:
     - assets/home_navbar5.png
     - assets/Notification_icon.png
     - assets/category.png
+    - assets/share.png
+    - assets/bag.png
+    - assets/productimage.png
+    - assets/review_userphoto.png
+    - assets/cartItem.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

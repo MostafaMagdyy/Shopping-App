@@ -28,7 +28,6 @@ class AppConstants {
     color: Color(0xFF4E4E4E),
   );
 
-  // New constants
   static const TextStyle seeAllStyle = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w500,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app/screens/categories.dart';
 import 'package:app/screens/new_arrival.dart';
+import 'package:app/screens/cart.dart';
 
 class CustomBottomNavBar extends StatefulWidget {
   final List<String> icons;
@@ -38,7 +39,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
       await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => NewArrivalScreen(screenType: 'myList'),
+          builder: (context) => CartScreen(),
         ),
       );
       setState(() {
