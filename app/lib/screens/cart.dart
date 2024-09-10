@@ -1,4 +1,5 @@
 import 'package:app/constants/constants.dart';
+import 'package:app/widgets/button.dart';
 import 'package:app/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/Components/cart_item.dart';
@@ -82,6 +83,14 @@ class CartScreen extends StatelessWidget {
                           },
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: CustomButton(
+                          onPressed: () {},
+                          text: 'Proceed to checkout',
+                          backgroundColor: Color(0XFF292D32),
+                        ),
+                      )
                     ],
                   ),
                 ),

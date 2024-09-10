@@ -44,7 +44,7 @@ final List<Product> productList = [
     id: '2',
     name: 'Slim Fit Jeans',
     imageUrl: 'assets/productimage.png',
-    isFavorite: true,
+    isFavorite: false,
     price: 49.99,
     rating: 4.2,
     availableSizes: ['28', '30', '32', '34', '36'],
