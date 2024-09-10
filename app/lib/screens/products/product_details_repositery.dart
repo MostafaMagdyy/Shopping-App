@@ -21,8 +21,9 @@ class ProductDetailsScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else if (state.error != null) {
             return Center(child: Text('Error: ${state.error}'));
-          } else if (state.product != null) {
-            return ProductDetailsView(product: state.product!);
+          } else if (state.products != null && state.products!.isNotEmpty) {
+            final product = state.products!.first;
+            return ProductDetailsView(product: product);
           } else {
             return const Center(child: Text('No product data available'));
           }

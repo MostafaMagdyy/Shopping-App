@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:app/models/product.dart';
 import 'package:app/screens/products/product_details_repositery.dart';
+import 'package:app/cubit/product_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ItemCard extends StatefulWidget {
   final Product product;
@@ -24,8 +26,8 @@ class _ItemCardState extends State<ItemCard> {
     isFavorited = widget.product.isFavorite;
   }
 
-  void _navigateToProductDetails(BuildContext context) {
-    Navigator.push(
+  void _navigateToProductDetails(BuildContext context) async {
+    final result = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ProductDetailsScreen(
@@ -33,6 +35,10 @@ class _ItemCardState extends State<ItemCard> {
         ),
       ),
     );
+
+    if (result == true) {
+      context.read<ProductCubit>().fetchAllProducts();
+    }
   }
 
   @override
@@ -134,6 +140,10 @@ class _ItemCardState extends State<ItemCard> {
                     size: 32,
                   ),
                   onPressed: () {
+                    context
+                        .read<ProductCubit>()
+                        .toggleFavorite(widget.product.id);
+
                     setState(() {
                       isFavorited = !isFavorited;
                     });

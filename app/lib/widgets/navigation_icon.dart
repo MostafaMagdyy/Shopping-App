@@ -7,7 +7,7 @@ class CustomBackNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pop();
+        Navigator.pop(context, true);
       },
       child: Container(
         width: 24.0,

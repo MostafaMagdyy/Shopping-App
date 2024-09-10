@@ -34,4 +34,23 @@ class ProductCubit extends Cubit<ProductState> {
       emit(ProductState(error: e.toString()));
     }
   }
+
+  Future<void> toggleFavorite(String productId) async {
+    try {
+      await _repository.toggleFavorite(productId);
+      print("Product Id" + productId);
+    } catch (e) {
+      emit(ProductState(error: e.toString()));
+    }
+  }
+
+  Future<void> fetchFavoriteProducts() async {
+    emit(ProductState(isLoading: true));
+    try {
+      final favoriteProducts = await _repository.getFavoriteProducts();
+      emit(ProductState(products: favoriteProducts));
+    } catch (e) {
+      emit(ProductState(error: e.toString()));
+    }
+  }
 }

@@ -11,6 +11,7 @@ import 'package:app/widgets/productdetails/rating.dart';
 import 'package:app/widgets/productdetails/review.dart';
 
 import 'package:app/cubit/cart_cubit.dart';
+import 'package:app/cubit/product_cubit.dart';
 
 class ProductDetailsView extends StatefulWidget {
   final Product product;
@@ -91,6 +92,10 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                           imageUrl: widget.product.imageUrl,
                           isFavorited: isFavorited,
                           onFavoriteToggle: () {
+                            context
+                                .read<ProductCubit>()
+                                .toggleFavorite(widget.product.id);
+
                             setState(() {
                               isFavorited = !isFavorited;
                             });

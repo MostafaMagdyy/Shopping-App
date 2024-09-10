@@ -1,3 +1,4 @@
+import 'package:app/constants/constants.dart';
 import 'package:app/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/Components/cart_item.dart';
@@ -33,54 +34,57 @@ class CartScreen extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  color: Color.fromARGB(255, 230, 230, 230),
-                  child: BlocBuilder<CartCubit, CartState>(
-                    builder: (context, state) {
-                      if (state.items.isEmpty) {
-                        return Center(
-                          child: Text('Your cart is empty'),
-                        );
-                      }
-                      return ListView.builder(
-                        itemCount: state.items.length,
-                        itemBuilder: (context, index) {
-                          final cartItem = state.items[index];
-                          return CartProductCard(
-                            cartItem: cartItem,
-                          );
-                        },
-                      );
-                    },
+                  color: const Color.fromARGB(255, 230, 230, 230),
+                  child: Column(
+                    children: [
+                      Container(
+                        color: Colors.white,
+                        child: BlocBuilder<CartCubit, CartState>(
+                          builder: (context, state) {
+                            return Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Total:',
+                                      style: AppConstants.headerStyle),
+                                  Text(
+                                    '${state.totalPrice.toStringAsFixed(2)} SAR',
+                                    style: AppConstants.headerStyle,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Expanded(
+                        child: BlocBuilder<CartCubit, CartState>(
+                          builder: (context, state) {
+                            if (state.items.isEmpty) {
+                              return Center(
+                                child: Text('Your cart is empty'),
+                              );
+                            }
+                            return ListView.builder(
+                              itemCount: state.items.length,
+                              itemBuilder: (context, index) {
+                                final cartItem = state.items[index];
+                                return CartProductCard(
+                                  cartItem: cartItem,
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              BlocBuilder<CartCubit, CartState>(
-                builder: (context, state) {
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Total:',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          '${state.totalPrice.toStringAsFixed(2)} SAR',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
               ),
             ],
           ),

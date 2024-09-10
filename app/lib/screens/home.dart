@@ -6,6 +6,7 @@ import 'package:app/widgets/clothes_category.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:app/widgets/bottom_navbar.dart';
 import 'package:app/models/product.dart';
+import 'package:app/screens/search.dart';
 
 TextStyle discountTextStyle = TextStyle(
   fontFamily: 'Roboto',
@@ -56,7 +57,51 @@ class _HomeScreenState extends State<HomeScreen> {
           return DefaultTabController(
             length: 2,
             child: Scaffold(
-              appBar: AppBar(),
+              appBar: AppBar(
+                backgroundColor: Color(0xFF2C2C2C),
+                title: Row(
+                  children: [
+                    Image.asset(
+                      'assets/MOOL_home.png',
+                      width: 94,
+                      height: 28,
+                    ),
+                    Spacer(),
+                    IconButton(
+                      icon: Icon(Icons.search, color: Colors.white, size: 28.0),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              insetPadding: EdgeInsets.zero,
+                              child: SearchScreen(),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.notifications_outlined,
+                          color: Colors.white, size: 24.0),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(48.0),
+                  child: TabBar(
+                    indicatorColor: Colors.white,
+                    tabs: [
+                      Tab(text: "WOMEN"),
+                      Tab(text: "MEN"),
+                    ],
+                    labelColor: Colors.white,
+                    unselectedLabelColor: Colors.grey,
+                    indicatorWeight: 3.0,
+                  ),
+                ),
+              ),
               body: Stack(
                 children: [
                   TabBarView(
@@ -71,11 +116,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           'Bottoms',
                           'T-Shirts',
                         ],
-                        newArrivals, // Pass the filtered list of new arrivals
+                        newArrivals,
+                        bestSellers,
                       ),
                       _buildTabContent(
                         ['User A', 'User B', 'User C'],
-                        bestSellers, // Pass the filtered list of best sellers
+                        newArrivals,
+                        bestSellers,
                       ),
                     ],
                   ),
@@ -104,7 +151,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildTabContent(List<String> categories, List<Product> products) {
+  Widget _buildTabContent(List<String> categories, List<Product> newArrivals,
+      List<Product> bestSellers) {
     return SingleChildScrollView(
       child: Container(
         decoration: BoxDecoration(
