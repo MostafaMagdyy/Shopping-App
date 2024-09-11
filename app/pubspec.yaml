@@ -100,6 +100,9 @@ flutter:
     - assets/productimage.png
     - assets/review_userphoto.png
     - assets/cartItem.png
+    - assets/Visa.png
+    - assets/MasterCard.png
+    - assets/Paymob.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

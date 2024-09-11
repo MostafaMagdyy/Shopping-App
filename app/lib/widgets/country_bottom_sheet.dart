@@ -30,7 +30,7 @@ class CountryCodeBottomSheet extends StatelessWidget {
                       ? Icon(Icons.check_circle, color: Colors.black)
                       : null,
                   onTap: () {
-                    onSelect("+1");
+                    onSelect("KSA");
                     Navigator.pop(context);
                   },
                 ),
@@ -45,7 +45,7 @@ class CountryCodeBottomSheet extends StatelessWidget {
                       ? Icon(Icons.check_circle, color: Colors.black)
                       : null,
                   onTap: () {
-                    onSelect("+20");
+                    onSelect("UAE");
                     Navigator.pop(context);
                   },
                 ),
@@ -60,7 +60,7 @@ class CountryCodeBottomSheet extends StatelessWidget {
                       ? Icon(Icons.check_circle, color: Colors.black)
                       : null,
                   onTap: () {
-                    onSelect("+44");
+                    onSelect("Egypt");
                     Navigator.pop(context);
                   },
                 ),
@@ -94,3 +94,4 @@ void showCountryCodeBottomSheet(BuildContext context,
     },
   );
 }
+  

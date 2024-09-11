@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:app/widgets/Components/cart_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/cubit/cart_cubit.dart';
+import 'package:app/screens/checkout.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -38,31 +39,6 @@ class CartScreen extends StatelessWidget {
                   color: const Color.fromARGB(255, 230, 230, 230),
                   child: Column(
                     children: [
-                      Container(
-                        color: Colors.white,
-                        child: BlocBuilder<CartCubit, CartState>(
-                          builder: (context, state) {
-                            return Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Total:',
-                                      style: AppConstants.headerStyle),
-                                  Text(
-                                    '${state.totalPrice.toStringAsFixed(2)} SAR',
-                                    style: AppConstants.headerStyle,
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
                       Expanded(
                         child: BlocBuilder<CartCubit, CartState>(
                           builder: (context, state) {
@@ -83,14 +59,26 @@ class CartScreen extends StatelessWidget {
                           },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: CustomButton(
-                          onPressed: () {},
-                          text: 'Proceed to checkout',
-                          backgroundColor: Color(0XFF292D32),
-                        ),
-                      )
+                      BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          return Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: CustomButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CheckoutScreen(
+                                        totalPrice: state.totalPrice),
+                                  ),
+                                );
+                              },
+                              text: 'Proceed to checkout',
+                              backgroundColor: Color(0XFF292D32),
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
