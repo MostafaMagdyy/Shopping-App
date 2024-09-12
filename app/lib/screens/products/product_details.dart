@@ -1,4 +1,5 @@
 import 'package:app/constants/constants.dart';
+import 'package:app/screens/reviews.dart';
 import 'package:app/widgets/button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +13,8 @@ import 'package:app/widgets/productdetails/review.dart';
 
 import 'package:app/cubit/cart_cubit.dart';
 import 'package:app/cubit/product_cubit.dart';
+
+import 'package:app/screens/add_review.dart';
 
 class ProductDetailsView extends StatefulWidget {
   final Product product;
@@ -166,12 +169,36 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                         ProductDetails(product: widget.product),
                         const SizedBox(height: 10),
                         RatingSection(product: widget.product),
-                        ReviewSection(review: widget.product.reviews[0]),
-                        BorderedContainer(
-                          text: 'See all reviews',
+                        ReviewSection(
+                          review: widget.product.reviews[0],
+                          header: 'Reviews',
                         ),
-                        BorderedContainer(
-                          text: 'Write Review',
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ReviewsScreen(product: widget.product),
+                              ),
+                            );
+                          },
+                          child: BorderedContainer(
+                            text: 'See all reviews',
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddReview(),
+                              ),
+                            );
+                          },
+                          child: BorderedContainer(
+                            text: 'Write Review',
+                          ),
                         ),
                         SafePackagingAndReturn(),
                         SizedBox(

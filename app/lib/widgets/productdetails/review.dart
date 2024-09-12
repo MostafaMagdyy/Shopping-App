@@ -5,7 +5,9 @@ import 'package:app/models/product.dart';
 
 class ReviewSection extends StatelessWidget {
   final Review review;
-  const ReviewSection({Key? key, required this.review}) : super(key: key);
+  final String header;
+const ReviewSection({Key? key, required this.review, this.header = ''})
+      : super(key: key);
 
   String formatReviewDate(DateTime date) {
     String day = DateFormat('d').format(date);
@@ -27,14 +29,15 @@ class ReviewSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: double.infinity,
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
-            child: Text('Review', style: AppConstants.headerStyle),
+        if (header != '')
+          Container(
+            width: double.infinity,
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+              child: Text(header, style: AppConstants.headerStyle),
+            ),
           ),
-        ),
         Container(
           width: double.infinity,
           color: Colors.white,
@@ -83,8 +86,8 @@ class ReviewSection extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                const Text(
-                  'Great basic tee',
+                Text(
+                  review.header,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
