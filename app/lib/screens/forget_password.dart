@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:app/widgets/text_field.dart';
 import 'package:app/widgets/button.dart';
 import 'package:app/widgets/navigation_icon.dart';
-import 'package:app/screens/welcome.dart';
 
 class ForgetPassword extends StatelessWidget {
   final String action;

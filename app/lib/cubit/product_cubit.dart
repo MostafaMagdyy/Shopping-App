@@ -44,6 +44,16 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
+  Future<void> addReview(String productId, Review newReview) async {
+    try {
+      await _repository.addReview(productId, newReview);
+
+      await fetchProduct(productId);
+    } catch (e) {
+      emit(ProductState(error: e.toString()));
+    }
+  }
+
   Future<void> fetchFavoriteProducts() async {
     emit(ProductState(isLoading: true));
     try {

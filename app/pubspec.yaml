@@ -104,6 +104,17 @@ flutter:
     - assets/MasterCard.png
     - assets/Paymob.png
     - assets/complete.png
+    - assets/Account/global.png
+    - assets/Account/heart.png
+    - assets/Account/information.png
+    - assets/Account/language.png
+    - assets/Account/location.png
+    - assets/Account/lock.png
+    - assets/Account/message.png
+    - assets/Account/order.png
+    - assets/Account/user.png
+    - assets/Account/logout.png
+    - assets/NoAddress_Icon.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

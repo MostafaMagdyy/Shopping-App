@@ -24,7 +24,7 @@ class Product {
   final String imageUrl;
   bool isFavorite;
   final double price;
-  final double rating;
+  double rating;
   final List<String> availableSizes;
   final List<Color> availableColors;
   final String description;
@@ -37,25 +37,27 @@ class Product {
   final bool isNewArrival;
   final bool isBestSeller;
   final int discount;
-  Product(
-      {required this.id,
-      required this.name,
-      required this.imageUrl,
-      required this.isFavorite,
-      required this.price,
-      required this.rating,
-      required this.availableSizes,
-      required this.availableColors,
-      required this.description,
-      required this.productCode,
-      required this.brand,
-      required this.fabric,
-      required this.modelWearingSize,
-      required this.shape,
-      required this.reviews,
-      required this.isBestSeller,
-      required this.discount,
-      required this.isNewArrival});
+
+  Product({
+    required this.id,
+    required this.name,
+    required this.imageUrl,
+    required this.isFavorite,
+    required this.price,
+    required this.rating,
+    required this.availableSizes,
+    required this.availableColors,
+    required this.description,
+    required this.productCode,
+    required this.brand,
+    required this.fabric,
+    required this.modelWearingSize,
+    required this.shape,
+    required this.reviews,
+    required this.isBestSeller,
+    required this.discount,
+    required this.isNewArrival,
+  });
 
   List<int> getStarRatings() {
     List<int> starCounts = List.filled(5, 0);
@@ -65,5 +67,20 @@ class Product {
       }
     }
     return starCounts;
+  }
+
+  void addReview(Review newReview) {
+    reviews.add(newReview);
+    updateRating();
+  }
+
+  void updateRating() {
+    if (reviews.isEmpty) {
+      rating = 0;
+    } else {
+      double totalRating =
+          reviews.fold(0, (sum, review) => sum + review.rating);
+      rating = totalRating / reviews.length;
+    }
   }
 }

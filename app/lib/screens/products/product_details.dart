@@ -192,8 +192,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AddReview(),
-                              ),
+                                  builder: (context) =>
+                                      AddReview(productId: widget.product.id)),
                             );
                           },
                           child: BorderedContainer(

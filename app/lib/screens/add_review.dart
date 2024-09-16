@@ -2,10 +2,14 @@ import 'package:app/constants/constants.dart';
 import 'package:app/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/custom_header.dart';
-import 'package:app/constants/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:app/cubit/product_cubit.dart';
+import 'package:app/models/product.dart';
 
 class AddReview extends StatefulWidget {
-  const AddReview({Key? key}) : super(key: key);
+  final String productId;
+
+  const AddReview({Key? key, required this.productId}) : super(key: key);
 
   @override
   _AddReviewState createState() => _AddReviewState();
@@ -14,6 +18,37 @@ class AddReview extends StatefulWidget {
 class _AddReviewState extends State<AddReview> {
   int _rating = 0;
   final TextEditingController _reviewController = TextEditingController();
+
+  void _submitReview() {
+    if (_rating > 0 && _reviewController.text.isNotEmpty) {
+      final newReview = Review(
+        username: 'Mostafa Magdy',
+        photoUrl: 'assets/review_userphoto.png',
+        date: DateTime.now(),
+        rating: _rating.toDouble(),
+        header: 'Hello from shopping app',
+        description: _reviewController.text,
+      );
+
+      context.read<ProductCubit>().addReview(widget.productId, newReview);
+
+      setState(() {
+        _rating = 0;
+        _reviewController.clear();
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Review submitted successfully!')),
+      );
+
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Please provide a rating and review text')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +107,7 @@ class _AddReviewState extends State<AddReview> {
                             child: Text(
                               'Rate Product',
                               style: AppConstants.headerStyle.copyWith(
-                                color: Color(0xFF33CCCC),
+                                color: const Color(0xFF33CCCC),
                               ),
                             ),
                           ),
@@ -102,9 +137,9 @@ class _AddReviewState extends State<AddReview> {
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: CustomButton(
-                                onPressed: () {},
+                                onPressed: _submitReview,
                                 text: 'Submit review',
-                                backgroundColor: Color(0XFF292D32),
+                                backgroundColor: const Color(0XFF292D32),
                               ),
                             ),
                           ),

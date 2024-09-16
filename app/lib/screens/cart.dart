@@ -1,4 +1,3 @@
-import 'package:app/constants/constants.dart';
 import 'package:app/widgets/button.dart';
 import 'package:app/widgets/custom_header.dart';
 import 'package:flutter/material.dart';

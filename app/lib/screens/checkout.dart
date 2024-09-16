@@ -1,11 +1,11 @@
 import 'package:app/screens/home.dart';
 import 'package:app/widgets/button.dart';
 import 'package:flutter/material.dart';
-import 'package:app/widgets/text_field.dart';
-import 'package:app/widgets/country_bottom_sheet.dart';
 import 'package:app/widgets/custom_header.dart';
 import 'package:app/constants/constants.dart';
 import 'package:app/widgets/Checkout/payment_step.dart';
+import 'package:app/widgets/Components/shipping_address_form.dart';
+import 'package:app/widgets/Components/shipping_address_summary.dart';
 
 class CheckoutScreen extends StatefulWidget {
   @override
@@ -38,163 +38,198 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF2C2C2C),
-              Color(0xFF292D32),
-            ],
-          ),
+        body: Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFF2C2C2C),
+            Color(0xFF292D32),
+          ],
         ),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 60,
-                child: const CustomHeader(
-                  headerText: 'Checkout',
-                ),
+      ),
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 60,
+              child: const CustomHeader(
+                headerText: 'Checkout',
               ),
-              Expanded(
-                child: Container(
-                  color: currentStep == 4
-                      ? Colors.white
-                      : const Color.fromARGB(255, 230, 230, 230),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildStepper(),
-                        SizedBox(height: 16),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: currentStep == 4
-                              ? Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 50),
-                                  child: Column(
-                                    children: [
-                                      OrderSubmitted(),
-                                      Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: CustomButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      HomeScreen()),
-                                            );
-                                          },
-                                          text: 'Go back to home',
-                                          backgroundColor: Color(0XFF292D32),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+            ),
+            Expanded(
+              child: Container(
+                color: currentStep == 4
+                    ? Colors.white
+                    : const Color.fromARGB(255, 230, 230, 230),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildStepper(),
+                      SizedBox(height: 16),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: currentStep == 4
+                            ? Padding(
+                                padding: EdgeInsets.symmetric(vertical: 50),
+                                child: Column(
                                   children: [
-                                    Text(
-                                      currentStep == 1
-                                          ? 'Enter your shipping address'
-                                          : currentStep == 2
-                                              ? 'Choose Payment Method'
-                                              : 'Please confirm your order',
-                                      style: AppConstants.headerStyle
-                                          .copyWith(fontSize: 20),
-                                    ),
-                                    SizedBox(height: 20),
-                                    if (currentStep == 3) ...[
-                                      _buildSummaryPayment(),
-                                      SizedBox(
-                                        height: 12,
-                                      ),
-                                      _buildSummary(),
-                                      SizedBox(
-                                        height: 40,
-                                      ),
-                                      _buildOrderSummary()
-                                    ],
-                                    if (currentStep == 2) _buildPaymentFields(),
-                                    if (currentStep == 1)
-                                      (_showSummary
-                                          ? _buildSummary()
-                                          : _buildForm()),
-                                    SizedBox(height: 20),
-                                    if (_showSummary)
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 12.0),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                border: Border.all(
-                                                  color:
-                                                      const Color(0xFF292D32),
-                                                  width: 1.5,
-                                                ),
-                                              ),
-                                              child: IconButton(
-                                                icon: Icon(Icons.add, size: 18),
-                                                onPressed: () {},
-                                                padding: EdgeInsets.zero,
-                                                constraints:
-                                                    const BoxConstraints(),
-                                              ),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              'Add new address',
-                                              style: AppConstants.headerStyle
-                                                  .copyWith(
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    if (_showSummary) SizedBox(height: 40),
+                                    OrderSubmitted(),
                                     Padding(
                                       padding: const EdgeInsets.all(16.0),
                                       child: CustomButton(
                                         onPressed: () {
-                                          setState(() {
-                                            if (currentStep == 1) {
-                                              _showSummary = !_showSummary;
-                                              if (!_showSummary) currentStep++;
-                                            } else
-                                              currentStep++;
-                                          });
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomeScreen()),
+                                          );
                                         },
-                                        text: currentStep == 3
-                                            ? 'Submit Order'
-                                            : 'Confirm and continue',
+                                        text: 'Go back to home',
                                         backgroundColor: Color(0XFF292D32),
                                       ),
                                     ),
                                   ],
                                 ),
-                        ),
-                      ],
-                    ),
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    currentStep == 1
+                                        ? 'Enter your shipping address'
+                                        : currentStep == 2
+                                            ? 'Choose Payment Method'
+                                            : 'Please confirm your order',
+                                    style: AppConstants.headerStyle
+                                        .copyWith(fontSize: 20),
+                                  ),
+                                  SizedBox(height: 20),
+                                  if (currentStep == 3) ...[
+                                    _buildSummaryPayment(),
+                                    SizedBox(height: 12),
+                                    SummaryWidget(
+                                      name: _nameController.text,
+                                      street: _streetController.text,
+                                      buildingNumber: _buildingController.text,
+                                      city: _cityController.text,
+                                      onEditTap: () {
+                                        setState(() {
+                                          _showSummary = !_showSummary;
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(height: 40),
+                                    _buildOrderSummary(),
+                                  ],
+                                  if (currentStep == 2) _buildPaymentFields(),
+                                  if (currentStep == 1)
+                                    _showSummary
+                                        ? SummaryWidget(
+                                            name: _nameController.text,
+                                            street: _streetController.text,
+                                            buildingNumber:
+                                                _buildingController.text,
+                                            city: _cityController.text,
+                                            onEditTap: () {
+                                              setState(() {
+                                                _showSummary = !_showSummary;
+                                              });
+                                            },
+                                          )
+                                        : ShippingAddressForm(
+                                            context: context,
+                                            nameController: _nameController,
+                                            codeController: _codeController,
+                                            phoneController: _phoneController,
+                                            streetController: _streetController,
+                                            buildingController:
+                                                _buildingController,
+                                            cityController: _cityController,
+                                            landmarkController:
+                                                _landmarkController,
+                                            selectedCountryName:
+                                                _selectedCountryName,
+                                            onCountrySelected:
+                                                (String selectedCountryName) {
+                                              setState(() {
+                                                _selectedCountryName =
+                                                    selectedCountryName;
+                                              });
+                                            },
+                                          ),
+                                  SizedBox(height: 20),
+                                  if (_showSummary)
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 12.0),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 24,
+                                            height: 24,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              border: Border.all(
+                                                color: const Color(0xFF292D32),
+                                                width: 1.5,
+                                              ),
+                                            ),
+                                            child: IconButton(
+                                              icon: Icon(Icons.add, size: 18),
+                                              onPressed: () {},
+                                              padding: EdgeInsets.zero,
+                                              constraints:
+                                                  const BoxConstraints(),
+                                            ),
+                                          ),
+                                          SizedBox(width: 10),
+                                          Text(
+                                            'Add new address',
+                                            style: AppConstants.headerStyle
+                                                .copyWith(
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  if (_showSummary) SizedBox(height: 40),
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: CustomButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          if (currentStep == 1) {
+                                            _showSummary = !_showSummary;
+                                            if (!_showSummary) currentStep++;
+                                          } else
+                                            currentStep++;
+                                        });
+                                      },
+                                      text: currentStep == 3
+                                          ? 'Submit Order'
+                                          : 'Confirm and continue',
+                                      backgroundColor: Color(0XFF292D32),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-    );
+    ));
   }
 
   Widget _buildStepper() {
@@ -248,140 +283,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildForm() {
-    return Container(
-      color: Color.fromARGB(255, 230, 230, 230),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GestureDetector(
-            onTap: () => showCountryCodeBottomSheet(
-              context,
-              _selectedCountryName ?? '',
-              (String selectedCountryName) {
-                setState(() {
-                  _selectedCountryName = selectedCountryName;
-                });
-              },
-            ),
-            child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 14.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: Text(
-                'Country: $_selectedCountryName',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-          ),
-          SizedBox(height: 16),
-          CustomTextFormField(
-            labelText: 'Full Name',
-            keyboardType: TextInputType.name,
-            controller: _nameController,
-          ),
-          SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: CustomTextFormField(
-                  labelText: 'Code',
-                  keyboardType: TextInputType.number,
-                  controller: _codeController,
-                ),
-              ),
-              SizedBox(width: 16),
-              Expanded(
-                flex: 7,
-                child: CustomTextFormField(
-                  labelText: 'Phone Number',
-                  keyboardType: TextInputType.phone,
-                  controller: _phoneController,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16),
-          CustomTextFormField(
-            labelText: 'Street Name',
-            keyboardType: TextInputType.streetAddress,
-            controller: _streetController,
-          ),
-          SizedBox(height: 16),
-          CustomTextFormField(
-            labelText: 'Building Name',
-            keyboardType: TextInputType.text,
-            controller: _buildingController,
-          ),
-          SizedBox(height: 16),
-          CustomTextFormField(
-            labelText: 'City/Area',
-            keyboardType: TextInputType.text,
-            controller: _cityController,
-          ),
-          SizedBox(height: 16),
-          CustomTextFormField(
-            labelText: 'Nearest Landmark',
-            keyboardType: TextInputType.text,
-            controller: _landmarkController,
-          ),
-          SizedBox(height: 40),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSummary() {
-    return Container(
-      padding: EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text('Shipping address', style: AppConstants.headerStyle),
-              Spacer(),
-              Align(
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _showSummary = !_showSummary;
-                    });
-                  },
-                  child: Text(
-                    'Edit',
-                    style: TextStyle(
-                      color: Color(0xFF33CCCC),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16),
-          _buildRow('Name', _nameController.text),
-          SizedBox(height: 6),
-          _buildRow('Street', _streetController.text),
-          SizedBox(height: 6),
-          _buildRow('Building No.', _buildingController.text),
-          SizedBox(height: 6),
-          _buildRow('City', _cityController.text),
-          SizedBox(height: 16),
-        ],
-      ),
     );
   }
 

@@ -32,6 +32,17 @@ class ProductRepository {
     }
   }
 
+  Future<void> addReview(String productId, Review newReview) async {
+    await Future.delayed(Duration(milliseconds: 300));
+
+    final productIndex = _productList.indexWhere((p) => p.id == productId);
+    if (productIndex != -1) {
+      _productList[productIndex].addReview(newReview);
+    } else {
+      throw Exception('Product not found');
+    }
+  }
+
   Future<List<Product>> getFavoriteProducts() async {
     await Future.delayed(Duration(milliseconds: 300));
     return _productList.where((p) => p.isFavorite).toList();

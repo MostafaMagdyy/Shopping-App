@@ -1,3 +1,5 @@
+import 'package:app/screens/home.dart';
+import 'package:app/screens/my_account.dart';
 import 'package:flutter/material.dart';
 import 'package:app/screens/categories.dart';
 import 'package:app/screens/new_arrival.dart';
@@ -27,24 +29,30 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   }
 
   void _onItemTapped(int index) async {
-    if (index == 1) {
-      await Navigator.push(
+    if (_selectedIndex != index && index == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } else if (_selectedIndex != index && index == 1) {
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => CategoriesScreen()),
       );
-      setState(() {
-        _selectedIndex = 0;
-      });
-    } else if (index == 3) {
-      await Navigator.push(
+    } else if (_selectedIndex != index && index == 3) {
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => CartScreen(),
         ),
       );
-      setState(() {
-        _selectedIndex = 0;
-      });
+    } else if (_selectedIndex != index && index == 4) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyAccountScreen(),
+        ),
+      );
     } else {
       setState(() {
         _selectedIndex = index;

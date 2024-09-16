@@ -27,12 +27,13 @@ class CustomButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'Roboto',
             fontWeight: FontWeight.w800,
             fontSize: 16.0,
             height: 1.17,
-            color: Colors.white,
+            color:
+                backgroundColor == Colors.white ? Colors.black : Colors.white,
           ),
         ),
       ),
