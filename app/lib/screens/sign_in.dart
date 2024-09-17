@@ -1,4 +1,6 @@
+import 'package:app/screens/auth.dart';
 import 'package:app/screens/forget_password.dart';
+import 'package:app/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:app/screens/welcome.dart';
@@ -191,7 +193,13 @@ class SignInScreen extends StatelessWidget {
                           SizedBox(height: 20),
                           CustomButton(
                             onPressed: () {
-                              if (_formKey.currentState!.validate()) {}
+                              if (_formKey.currentState!.validate()) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()),
+                                );
+                              }
                             },
                             text: 'Sign In',
                           ),
@@ -213,7 +221,12 @@ class SignInScreen extends StatelessWidget {
                                       ),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
-                                          // Handle login tap
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SignUpScreen()),
+                                          );
                                         },
                                     ),
                                   ],

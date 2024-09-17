@@ -42,8 +42,7 @@ class _SizeOptionsState extends State<SizeOptions> {
                     },
                     child: Text('Cancel',
                         style: AppConstants.normalTextStyle.copyWith(
-                          fontWeight: FontWeight.w500,
-                        )),
+                            fontWeight: FontWeight.w500, color: Colors.white)),
                   ),
                 ),
               ),

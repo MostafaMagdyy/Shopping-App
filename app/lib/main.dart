@@ -1,5 +1,7 @@
+import 'package:app/screens/auth.dart';
 import 'package:app/screens/checkout.dart';
 import 'package:app/screens/home.dart';
+import 'package:app/screens/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/screens/cart.dart';
@@ -40,7 +42,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
-          home: HomeScreen(),
+          home: SplashScreen(),
           routes: {
             '/cart': (context) => CartScreen(),
           },

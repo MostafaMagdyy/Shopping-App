@@ -1,3 +1,4 @@
+import 'package:app/screens/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/cubit/product_cubit.dart';
@@ -84,7 +85,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     IconButton(
                       icon: Icon(Icons.notifications_outlined,
                           color: Colors.white, size: 24.0),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NotificationScreen()),
+                        );
+                      },
                     ),
                   ],
                 ),

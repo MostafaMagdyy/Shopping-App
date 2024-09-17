@@ -1,4 +1,6 @@
+import 'package:app/screens/home.dart';
 import 'package:app/screens/verification.dart';
+import 'package:app/screens/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app/widgets/text_field.dart';
@@ -42,7 +44,7 @@ class ForgetPassword extends StatelessWidget {
                   child: Text(
                     action == 'Forget'
                         ? 'Forget\nPassword?'
-                        : 'Create\nPassword',
+                        : 'Reset\nPassword',
                     style: GoogleFonts.roboto(
                       fontWeight: FontWeight.w700,
                       fontSize: 32,
@@ -94,17 +96,25 @@ class ForgetPassword extends StatelessWidget {
                             },
                           ),
                         ],
-                        SizedBox(height: 16), // Add some space above the button
+                        SizedBox(height: 16),
                         Padding(
                           padding: EdgeInsets.only(top: 16, bottom: 32),
                           child: CustomButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          VerificationScreen()),
-                                );
+                                if (action == 'Forget')
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            VerificationScreen()),
+                                  );
+                                else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => WelcomeScreen()),
+                                  );
+                                }
                               },
                               text: 'Submit'),
                         ),

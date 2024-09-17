@@ -56,8 +56,8 @@ class FilterScreen extends StatelessWidget {
                         child: ListView.builder(
                           itemCount: filterOptions.length,
                           itemBuilder: (context, index) {
-                            return _buildCategoryItem(context,
-                                filterOptions[index].name); // Pass context here
+                            return _buildCategoryItem(
+                                context, filterOptions[index].name);
                           },
                         ),
                       ),
@@ -76,7 +76,6 @@ class FilterScreen extends StatelessWidget {
   Widget _buildCategoryItem(BuildContext context, String category) {
     return GestureDetector(
       onTap: () {
-        // Navigate to a new widget (screen) here
         Navigator.push(
           context,
           MaterialPageRoute(

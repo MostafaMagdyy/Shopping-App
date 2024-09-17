@@ -6,7 +6,7 @@ List<String> topSearches = [
 ];
 
 List<String> recentSearches = [
-  'Search Item 1',
-  'Search Item 2',
-  'Search Item 3',
+  'LC',
+  'Defacto',
+  'MAX',
 ];

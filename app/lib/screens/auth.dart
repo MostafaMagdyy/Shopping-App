@@ -240,7 +240,13 @@ class SignUpScreen extends StatelessWidget {
                           SizedBox(height: 16.0),
                           CustomButton(
                             onPressed: () {
-                              if (_formKey.currentState!.validate()) {}
+                              if (_formKey.currentState!.validate()) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WelcomeScreen()),
+                                );
+                              }
                             },
                             text: 'Sign Up',
                           ),

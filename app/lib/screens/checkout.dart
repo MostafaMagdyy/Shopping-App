@@ -8,10 +8,11 @@ import 'package:app/widgets/Components/shipping_address_form.dart';
 import 'package:app/widgets/Components/shipping_address_summary.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  @override
-  _CheckoutScreenState createState() => _CheckoutScreenState();
   final double totalPrice;
   const CheckoutScreen({Key? key, required this.totalPrice}) : super(key: key);
+
+  @override
+  _CheckoutScreenState createState() => _CheckoutScreenState();
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
@@ -33,203 +34,333 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       TextEditingController();
   final TextEditingController _securityCodeController = TextEditingController();
 
+  List<Map<String, String>> savedAddresses = [];
+
   bool _showSummary = false;
+  int _editingIndex = -1;
+
+  void _addAddress() {
+    final newAddress = {
+      'name': _nameController.text,
+      'street': _streetController.text,
+      'building': _buildingController.text,
+      'city': _cityController.text,
+      'landmark': _landmarkController.text,
+      'phone': _phoneController.text,
+      'code': _codeController.text,
+    };
+    setState(() {
+      if (_editingIndex >= 0) {
+        savedAddresses[_editingIndex] = newAddress;
+        _editingIndex = -1;
+      } else {
+        savedAddresses.add(newAddress);
+      }
+      _showSummary = true;
+      _clearAddressForm();
+    });
+  }
+
+  void _clearAddressForm() {
+    _nameController.clear();
+    _streetController.clear();
+    _buildingController.clear();
+    _cityController.clear();
+    _landmarkController.clear();
+    _phoneController.clear();
+    _codeController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFF2C2C2C),
-            Color(0xFF292D32),
-          ],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF2C2C2C),
+              Color(0xFF292D32),
+            ],
+          ),
         ),
-      ),
-      child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 60,
-              child: const CustomHeader(
-                headerText: 'Checkout',
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 60,
+                child: const CustomHeader(
+                  headerText: 'Checkout',
+                ),
               ),
-            ),
-            Expanded(
-              child: Container(
-                color: currentStep == 4
-                    ? Colors.white
-                    : const Color.fromARGB(255, 230, 230, 230),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildStepper(),
-                      SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: currentStep == 4
-                            ? Padding(
-                                padding: EdgeInsets.symmetric(vertical: 50),
-                                child: Column(
+              Expanded(
+                child: Container(
+                  color: currentStep == 4
+                      ? Colors.white
+                      : const Color.fromARGB(255, 230, 230, 230),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildStepper(),
+                        const SizedBox(height: 16),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: currentStep == 4
+                              ? Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 50),
+                                  child: Column(
+                                    children: [
+                                      OrderSubmitted(),
+                                      Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: CustomButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomeScreen()),
+                                            );
+                                          },
+                                          text: 'Go back to home',
+                                          backgroundColor:
+                                              const Color(0XFF292D32),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    OrderSubmitted(),
+                                    Text(
+                                      currentStep == 1
+                                          ? 'Enter your shipping address'
+                                          : currentStep == 2
+                                              ? 'Choose Payment Method'
+                                              : 'Please confirm your order',
+                                      style: AppConstants.headerStyle
+                                          .copyWith(fontSize: 20),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    if (currentStep == 3) ...[
+                                      _buildSummaryPayment(),
+                                      const SizedBox(height: 12),
+                                      ...savedAddresses
+                                          .asMap()
+                                          .entries
+                                          .map((entry) {
+                                        final index = entry.key;
+                                        final address = entry.value;
+                                        return Column(
+                                          children: [
+                                            SummaryWidget(
+                                              name: address['name'] ?? '',
+                                              street: address['street'] ?? '',
+                                              buildingNumber:
+                                                  address['building'] ?? '',
+                                              city: address['city'] ?? '',
+                                              onEditTap: () {
+                                                setState(() {
+                                                  _editingIndex = index;
+                                                  _nameController.text =
+                                                      address['name'] ?? '';
+                                                  _streetController.text =
+                                                      address['street'] ?? '';
+                                                  _buildingController.text =
+                                                      address['building'] ?? '';
+                                                  _cityController.text =
+                                                      address['city'] ?? '';
+                                                  _landmarkController.text =
+                                                      address['landmark'] ?? '';
+                                                  _phoneController.text =
+                                                      address['phone'] ?? '';
+                                                  _codeController.text =
+                                                      address['code'] ?? '';
+                                                  currentStep = 1;
+                                                });
+                                              },
+                                            ),
+                                            const SizedBox(height: 16),
+                                          ],
+                                        );
+                                      }).toList(),
+                                      const SizedBox(height: 40),
+                                      _buildOrderSummary(),
+                                    ],
+                                    if (currentStep == 2) _buildPaymentFields(),
+                                    if (currentStep == 1)
+                                      _showSummary
+                                          ? Column(
+                                              children: [
+                                                ...savedAddresses
+                                                    .asMap()
+                                                    .entries
+                                                    .map((entry) {
+                                                  final index = entry.key;
+                                                  final address = entry.value;
+                                                  return Column(
+                                                    children: [
+                                                      SummaryWidget(
+                                                        name: address['name'] ??
+                                                            '',
+                                                        street:
+                                                            address['street'] ??
+                                                                '',
+                                                        buildingNumber: address[
+                                                                'building'] ??
+                                                            '',
+                                                        city: address['city'] ??
+                                                            '',
+                                                        onEditTap: () {
+                                                          setState(() {
+                                                            _editingIndex =
+                                                                index;
+                                                            _nameController
+                                                                .text = address[
+                                                                    'name'] ??
+                                                                '';
+                                                            _streetController
+                                                                .text = address[
+                                                                    'street'] ??
+                                                                '';
+                                                            _buildingController
+                                                                .text = address[
+                                                                    'building'] ??
+                                                                '';
+                                                            _cityController
+                                                                .text = address[
+                                                                    'city'] ??
+                                                                '';
+                                                            _landmarkController
+                                                                .text = address[
+                                                                    'landmark'] ??
+                                                                '';
+                                                            _phoneController
+                                                                .text = address[
+                                                                    'phone'] ??
+                                                                '';
+                                                            _codeController
+                                                                .text = address[
+                                                                    'code'] ??
+                                                                '';
+                                                            _showSummary =
+                                                                false;
+                                                          });
+                                                        },
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 16),
+                                                    ],
+                                                  );
+                                                }).toList(),
+                                              ],
+                                            )
+                                          : ShippingAddressForm(
+                                              context: context,
+                                              nameController: _nameController,
+                                              codeController: _codeController,
+                                              phoneController: _phoneController,
+                                              streetController:
+                                                  _streetController,
+                                              buildingController:
+                                                  _buildingController,
+                                              cityController: _cityController,
+                                              landmarkController:
+                                                  _landmarkController,
+                                              selectedCountryName:
+                                                  _selectedCountryName,
+                                              onCountrySelected:
+                                                  (String selectedCountryName) {
+                                                setState(() {
+                                                  _selectedCountryName =
+                                                      selectedCountryName;
+                                                });
+                                              },
+                                            ),
+                                    const SizedBox(height: 20),
+                                    if (_showSummary && currentStep == 1)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 12.0),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: 24,
+                                              height: 24,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                border: Border.all(
+                                                  color:
+                                                      const Color(0xFF292D32),
+                                                  width: 1.5,
+                                                ),
+                                              ),
+                                              child: IconButton(
+                                                icon: const Icon(Icons.add,
+                                                    size: 18),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _showSummary = false;
+                                                    _editingIndex = -1;
+                                                    _clearAddressForm();
+                                                  });
+                                                },
+                                                padding: EdgeInsets.zero,
+                                                constraints:
+                                                    const BoxConstraints(),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Text(
+                                              'Add new address',
+                                              style: AppConstants.headerStyle
+                                                  .copyWith(
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    if (_showSummary)
+                                      const SizedBox(height: 40),
                                     Padding(
                                       padding: const EdgeInsets.all(16.0),
                                       child: CustomButton(
                                         onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomeScreen()),
-                                          );
+                                          if (currentStep == 1 &&
+                                              !_showSummary) {
+                                            _addAddress();
+                                          } else {
+                                            setState(() {
+                                              currentStep++;
+                                            });
+                                          }
                                         },
-                                        text: 'Go back to home',
+                                        text: currentStep == 3
+                                            ? 'Submit Order'
+                                            : 'Confirm and continue',
                                         backgroundColor: Color(0XFF292D32),
                                       ),
                                     ),
                                   ],
                                 ),
-                              )
-                            : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    currentStep == 1
-                                        ? 'Enter your shipping address'
-                                        : currentStep == 2
-                                            ? 'Choose Payment Method'
-                                            : 'Please confirm your order',
-                                    style: AppConstants.headerStyle
-                                        .copyWith(fontSize: 20),
-                                  ),
-                                  SizedBox(height: 20),
-                                  if (currentStep == 3) ...[
-                                    _buildSummaryPayment(),
-                                    SizedBox(height: 12),
-                                    SummaryWidget(
-                                      name: _nameController.text,
-                                      street: _streetController.text,
-                                      buildingNumber: _buildingController.text,
-                                      city: _cityController.text,
-                                      onEditTap: () {
-                                        setState(() {
-                                          _showSummary = !_showSummary;
-                                        });
-                                      },
-                                    ),
-                                    SizedBox(height: 40),
-                                    _buildOrderSummary(),
-                                  ],
-                                  if (currentStep == 2) _buildPaymentFields(),
-                                  if (currentStep == 1)
-                                    _showSummary
-                                        ? SummaryWidget(
-                                            name: _nameController.text,
-                                            street: _streetController.text,
-                                            buildingNumber:
-                                                _buildingController.text,
-                                            city: _cityController.text,
-                                            onEditTap: () {
-                                              setState(() {
-                                                _showSummary = !_showSummary;
-                                              });
-                                            },
-                                          )
-                                        : ShippingAddressForm(
-                                            context: context,
-                                            nameController: _nameController,
-                                            codeController: _codeController,
-                                            phoneController: _phoneController,
-                                            streetController: _streetController,
-                                            buildingController:
-                                                _buildingController,
-                                            cityController: _cityController,
-                                            landmarkController:
-                                                _landmarkController,
-                                            selectedCountryName:
-                                                _selectedCountryName,
-                                            onCountrySelected:
-                                                (String selectedCountryName) {
-                                              setState(() {
-                                                _selectedCountryName =
-                                                    selectedCountryName;
-                                              });
-                                            },
-                                          ),
-                                  SizedBox(height: 20),
-                                  if (_showSummary)
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 12.0),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 24,
-                                            height: 24,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              border: Border.all(
-                                                color: const Color(0xFF292D32),
-                                                width: 1.5,
-                                              ),
-                                            ),
-                                            child: IconButton(
-                                              icon: Icon(Icons.add, size: 18),
-                                              onPressed: () {},
-                                              padding: EdgeInsets.zero,
-                                              constraints:
-                                                  const BoxConstraints(),
-                                            ),
-                                          ),
-                                          SizedBox(width: 10),
-                                          Text(
-                                            'Add new address',
-                                            style: AppConstants.headerStyle
-                                                .copyWith(
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  if (_showSummary) SizedBox(height: 40),
-                                  Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: CustomButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          if (currentStep == 1) {
-                                            _showSummary = !_showSummary;
-                                            if (!_showSummary) currentStep++;
-                                          } else
-                                            currentStep++;
-                                        });
-                                      },
-                                      text: currentStep == 3
-                                          ? 'Submit Order'
-                                          : 'Confirm and continue',
-                                      backgroundColor: Color(0XFF292D32),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 
   Widget _buildStepper() {

@@ -1,3 +1,4 @@
+import 'package:app/screens/welcome.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:app/screens/home.dart';
@@ -13,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => WelcomeScreen()),
       );
     });
   }
@@ -21,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF171717), 
+      backgroundColor: Color(0xFF171717),
       body: Stack(
         children: [
           Positioned(
