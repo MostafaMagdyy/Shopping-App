@@ -2,6 +2,7 @@ import 'package:app/constants/constants.dart';
 import 'package:app/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/Orders/order_item.dart';
+import 'package:app/data/order/orders.dart';
 
 class MyOrdersScreen extends StatefulWidget {
   @override
@@ -93,8 +94,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                               ),
                             ),
                             TextButton(
-                              onPressed:
-                                  _showFilterBottomSheet, // Call the method here
+                              onPressed: _showFilterBottomSheet,
                               child: Row(
                                 children: [
                                   Text('Filter',
@@ -110,41 +110,19 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                       Expanded(
                         child: SingleChildScrollView(
                           child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 24, horizontal: 16),
                             child: Column(
-                              children: [
-                                OrderItem(
-                                  orderNumber: 'A255DSD5FF',
-                                  price: '\25000 SAR',
-                                  orderDate: ' Aug 23 , 2022',
-                                  itemName: 'Elegent Blazer',
-                                  isDelivered: true,
-                                  onWriteReview: () {
-                                    print('Write review for Order 12345');
-                                  },
-                                ),
-                                OrderItem(
-                                  orderNumber: '12346',
-                                  price: '\25040 SAR',
-                                  orderDate: 'Aug 23 , 2012',
-                                  itemName: 'Elegent Blazer',
-                                  isDelivered: false,
-                                  onWriteReview: () {
-                                    print('Write review for Order 12346');
-                                  },
-                                ),
-                                OrderItem(
-                                  orderNumber: '12347',
-                                  price: '\$20.00',
-                                  orderDate: 'Aug 23 , 2012',
-                                  itemName: 'Elegent Blazer',
-                                  isDelivered: true,
-                                  onWriteReview: () {
-                                    print('Write review for Order 12347');
-                                  },
-                                ),
-                              ],
+                              children: sampleOrders.map((order) {
+                                return OrderItem(
+                                  orderNumber: order.orderNumber,
+                                  price: order.price,
+                                  orderDate: order.orderDate,
+                                  itemName: order.itemName,
+                                  isDelivered: order.isDelivered,
+                                  onWriteReview: () {},
+                                );
+                              }).toList(),
                             ),
                           ),
                         ),

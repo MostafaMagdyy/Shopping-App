@@ -1,7 +1,9 @@
 import 'package:app/screens/address_book.dart';
 import 'package:app/screens/change_password.dart';
 import 'package:app/screens/my_orders.dart';
+import 'package:app/screens/new_arrival.dart';
 import 'package:app/screens/profile.dart';
+import 'package:app/widgets/bottom_navbar.dart';
 import 'package:app/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/country_bottom_sheet.dart';
@@ -28,47 +30,69 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   String selectedCountry = '';
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF2C2C2C),
-              Color(0xFF292D32),
-            ],
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 60,
-                child: CustomHeader(
-                  headerText: 'My Account',
-                ),
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF2C2C2C),
+                  Color(0xFF292D32),
+                ],
               ),
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  color: Color.fromARGB(255, 230, 230, 230),
-                  child: ListView.separated(
-                    padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-                    itemCount: settingsItems.length,
-                    separatorBuilder: (context, index) => SizedBox(height: 10),
-                    itemBuilder: (context, index) {
-                      final item = settingsItems[index];
-                      return _buildSettingsItem(item, index);
-                    },
+            ),
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 60,
+                    child: CustomHeader(
+                      headerText: 'My Account',
+                    ),
                   ),
-                ),
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      color: Color.fromARGB(255, 230, 230, 230),
+                      child: ListView.separated(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+                        itemCount: settingsItems.length,
+                        separatorBuilder: (context, index) =>
+                            SizedBox(height: 10),
+                        itemBuilder: (context, index) {
+                          final item = settingsItems[index];
+                          return _buildSettingsItem(item, index);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: CustomBottomNavBar(
+              initialIndex: 4,
+              icons: [
+                'assets/home_navbar1.png',
+                'assets/home_navbar2.png',
+                'assets/home_navbar3.png',
+                'assets/home_navbar4.png',
+                'assets/home_navbar5.png',
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -106,6 +130,14 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => MyOrdersScreen()),
+                );
+              case 'My Favorite':
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => NewArrivalScreen(
+                            screenType: 'myList',
+                          )),
                 );
               case 'Address Book':
                 Navigator.push(

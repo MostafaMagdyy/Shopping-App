@@ -22,6 +22,8 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _landmarkController = TextEditingController();
 
+  List<Map<String, String>> savedAddresses = [];
+
   bool get hasEnteredAddress {
     return _nameController.text.isNotEmpty ||
         _streetController.text.isNotEmpty ||
@@ -30,6 +32,30 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
         _landmarkController.text.isNotEmpty ||
         _phoneController.text.isNotEmpty ||
         _codeController.text.isNotEmpty;
+  }
+
+  void _addAddress() {
+    savedAddresses.add({
+      'name': _nameController.text,
+      'street': _streetController.text,
+      'building': _buildingController.text,
+      'city': _cityController.text,
+      'landmark': _landmarkController.text,
+      'phone': _phoneController.text,
+      'code': _codeController.text,
+    });
+
+    _nameController.clear();
+    _streetController.clear();
+    _buildingController.clear();
+    _cityController.clear();
+    _landmarkController.clear();
+    _phoneController.clear();
+    _codeController.clear();
+
+    setState(() {
+      _showShippingAddressForm = false;
+    });
   }
 
   @override
@@ -95,11 +121,7 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: CustomButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _showShippingAddressForm = false;
-                                      });
-                                    },
+                                    onPressed: _addAddress,
                                     backgroundColor: const Color(0XFF292D32),
                                     text: 'Add Address',
                                   ),
@@ -108,26 +130,83 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
                             ),
                           ),
                         )
-                      : hasEnteredAddress
-                          ? Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                children: [
-                                  SummaryWidget(
-                                    name: _nameController.text,
-                                    street: _streetController.text,
-                                    buildingNumber: _buildingController.text,
-                                    city: _cityController.text,
-                                    onEditTap: () {
-                                      setState(() {
-                                        _showShippingAddressForm = true;
-                                      });
-                                    },
+                      : Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (savedAddresses.isNotEmpty) ...[
+                                ...savedAddresses.map((address) {
+                                  return Column(
+                                    children: [
+                                      SummaryWidget(
+                                        name: address['name']!,
+                                        street: address['street']!,
+                                        buildingNumber: address['building']!,
+                                        city: address['city']!,
+                                        onEditTap: () {
+                                          setState(() {
+                                            _nameController.text =
+                                                address['name']!;
+                                            _streetController.text =
+                                                address['street']!;
+                                            _buildingController.text =
+                                                address['building']!;
+                                            _cityController.text =
+                                                address['city']!;
+                                            _landmarkController.text =
+                                                address['landmark']!;
+                                            _phoneController.text =
+                                                address['phone']!;
+                                            _codeController.text =
+                                                address['code']!;
+                                            _showShippingAddressForm = true;
+                                          });
+                                        },
+                                      ),
+                                      SizedBox(height: 16),
+                                    ],
+                                  );
+                                }).toList(),
+                              ] else ...[
+                                Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/NoAddress_Icon.png',
+                                        width: 100,
+                                        height: 100,
+                                      ),
+                                      const SizedBox(height: 16),
+                                      Text(
+                                        'No Address Yet',
+                                        style: AppConstants.headerStyle
+                                            .copyWith(
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      const Text(
+                                        'Please add your address for a better experience.',
+                                        textAlign: TextAlign.center,
+                                        style: AppConstants.normalTextStyle,
+                                      ),
+                                      const SizedBox(height: 24),
+                                    ],
                                   ),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  Row(
+                                ),
+                              ],
+                              // Add New Address Button
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20),
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _showShippingAddressForm = true;
+                                    });
+                                  },
+                                  child: Row(
                                     children: [
                                       Container(
                                         width: 24,
@@ -140,64 +219,26 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
                                             width: 1.5,
                                           ),
                                         ),
-                                        child: IconButton(
-                                          icon: Icon(Icons.add, size: 18),
-                                          onPressed: () {},
-                                          padding: EdgeInsets.zero,
-                                          constraints: const BoxConstraints(),
+                                        child: const Icon(
+                                          Icons.add,
+                                          size: 18,
+                                          color: Color(0xFF292D32),
                                         ),
                                       ),
-                                      SizedBox(width: 10),
+                                      const SizedBox(width: 10),
                                       Text(
                                         'Add new address',
-                                        style:
-                                            AppConstants.headerStyle.copyWith(
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                        style: AppConstants.headerStyle
+                                            .copyWith(
+                                                fontWeight: FontWeight.w500),
                                       ),
                                     ],
                                   ),
-                                ],
+                                ),
                               ),
-                            )
-                          : Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/NoAddress_Icon.png',
-                                    width: 100,
-                                    height: 100,
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Text(
-                                    'No Address Yet',
-                                    style: AppConstants.headerStyle.copyWith(
-                                      fontSize: 24,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  const Text(
-                                    'Please add your address for a better experience.',
-                                    textAlign: TextAlign.center,
-                                    style: AppConstants.normalTextStyle,
-                                  ),
-                                  const SizedBox(height: 24),
-                                  Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: CustomButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _showShippingAddressForm = true;
-                                        });
-                                      },
-                                      backgroundColor: const Color(0XFF292D32),
-                                      text: 'Add Address',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            ],
+                          ),
+                        ),
                 ),
               ),
             ],

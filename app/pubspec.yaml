@@ -104,6 +104,8 @@ flutter:
     - assets/MasterCard.png
     - assets/Paymob.png
     - assets/complete.png
+    - assets/order_details1.png
+    - assets/order_details2.png
     - assets/Account/global.png
     - assets/Account/heart.png
     - assets/Account/information.png

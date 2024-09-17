@@ -54,7 +54,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               Container(
                 height: 60,
                 child: CustomHeader(
-                  headerText: '',
+                  headerText: 'Change Password',
                 ),
               ),
               Expanded(
