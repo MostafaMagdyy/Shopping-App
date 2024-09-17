@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/widgets/item_card.dart';
+import 'package:app/data/productdetails/product.dart';
 
 class NewArrivalGrid extends StatelessWidget {
   final int numberOfRows;
@@ -21,21 +22,13 @@ class NewArrivalGrid extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Row(
                   children: [
-                    // ItemCard(
-                    //   imagePath: 'assets/cardimage.png',
-                    //   price: 2500,
-                    //   text: 'Item Name',
-                    //   discount: '20% OFF',
-                    //   isFavorite: type,
-                    // ),
-                    // SizedBox(width: 16),
-                    // ItemCard(
-                    //   imagePath: 'assets/cardimage.png',
-                    //   price: 2500,
-                    //   text: 'Item Name',
-                    //   discount: '20% OFF',
-                    //   isFavorite: type,
-                    // ),
+                    ItemCard(
+                      product: productList[0],
+                    ),
+                    SizedBox(width: 16),
+                    ItemCard(
+                      product: productList[1],
+                    ),
                     SizedBox(width: 16),
                   ],
                 ),

@@ -23,6 +23,7 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
   final TextEditingController _landmarkController = TextEditingController();
 
   List<Map<String, String>> savedAddresses = [];
+  int? _editingIndex; // Track which address is being edited
 
   bool get hasEnteredAddress {
     return _nameController.text.isNotEmpty ||
@@ -35,16 +36,32 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
   }
 
   void _addAddress() {
-    savedAddresses.add({
-      'name': _nameController.text,
-      'street': _streetController.text,
-      'building': _buildingController.text,
-      'city': _cityController.text,
-      'landmark': _landmarkController.text,
-      'phone': _phoneController.text,
-      'code': _codeController.text,
-    });
+    if (_editingIndex != null) {
+      // Update existing address
+      savedAddresses[_editingIndex!] = {
+        'name': _nameController.text,
+        'street': _streetController.text,
+        'building': _buildingController.text,
+        'city': _cityController.text,
+        'landmark': _landmarkController.text,
+        'phone': _phoneController.text,
+        'code': _codeController.text,
+      };
+      _editingIndex = null; // Reset editing index
+    } else {
+      // Add new address
+      savedAddresses.add({
+        'name': _nameController.text,
+        'street': _streetController.text,
+        'building': _buildingController.text,
+        'city': _cityController.text,
+        'landmark': _landmarkController.text,
+        'phone': _phoneController.text,
+        'code': _codeController.text,
+      });
+    }
 
+    // Clear input fields after adding/updating
     _nameController.clear();
     _streetController.clear();
     _buildingController.clear();
@@ -123,7 +140,9 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
                                   child: CustomButton(
                                     onPressed: _addAddress,
                                     backgroundColor: const Color(0XFF292D32),
-                                    text: 'Add Address',
+                                    text: _editingIndex != null
+                                        ? 'Update Address'
+                                        : 'Add Address',
                                   ),
                                 ),
                               ],
@@ -136,7 +155,9 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               if (savedAddresses.isNotEmpty) ...[
-                                ...savedAddresses.map((address) {
+                                ...savedAddresses.asMap().entries.map((entry) {
+                                  int index = entry.key;
+                                  Map<String, String> address = entry.value;
                                   return Column(
                                     children: [
                                       SummaryWidget(
@@ -161,13 +182,55 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
                                             _codeController.text =
                                                 address['code']!;
                                             _showShippingAddressForm = true;
+                                            _editingIndex =
+                                                index; // Set editing index
                                           });
                                         },
                                       ),
-                                      SizedBox(height: 16),
+                                      const SizedBox(height: 16),
                                     ],
                                   );
                                 }).toList(),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 20),
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _showShippingAddressForm = true;
+                                        _editingIndex =
+                                            null; // Reset editing index
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 24,
+                                          height: 24,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            border: Border.all(
+                                              color: const Color(0xFF292D32),
+                                              width: 1.5,
+                                            ),
+                                          ),
+                                          child: const Icon(
+                                            Icons.add,
+                                            size: 18,
+                                            color: Color(0xFF292D32),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          'Add new address',
+                                          style: AppConstants.headerStyle
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ] else ...[
                                 Center(
                                   child: Column(
@@ -193,49 +256,21 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
                                         style: AppConstants.normalTextStyle,
                                       ),
                                       const SizedBox(height: 24),
+                                      Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: CustomButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                _showShippingAddressForm = true;
+                                              });
+                                            },
+                                            backgroundColor: Color(0XFF292D32),
+                                            text: 'Add Address'),
+                                      )
                                     ],
                                   ),
                                 ),
                               ],
-                    
-                              Padding(
-                                padding: const EdgeInsets.only(top: 20),
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      _showShippingAddressForm = true;
-                                    });
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 24,
-                                        height: 24,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                            color: const Color(0xFF292D32),
-                                            width: 1.5,
-                                          ),
-                                        ),
-                                        child: const Icon(
-                                          Icons.add,
-                                          size: 18,
-                                          color: Color(0xFF292D32),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        'Add new address',
-                                        style: AppConstants.headerStyle
-                                            .copyWith(
-                                                fontWeight: FontWeight.w500),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
                             ],
                           ),
                         ),

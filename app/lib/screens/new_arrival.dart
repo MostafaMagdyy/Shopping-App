@@ -102,69 +102,66 @@ class _NewArrivalScreenState extends State<NewArrivalScreen> {
                           ),
                         ),
                       ),
-                      if (widget.screenType != 'myList')
-                        Container(
-                          color: Colors.white,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: InkWell(
-                                  onTap: _showSortBottomSheet,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(vertical: 16),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.sort,
-                                            color: Color(0xFF292D32)),
-                                        SizedBox(width: 8),
-                                        Text(
-                                          _selectedSortOption,
-                                          style: TextStyle(
-                                            color: Color(0xFF292D32),
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Center(
+                      Container(
+                        color: Colors.white,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: _showSortBottomSheet,
                                 child: Container(
-                                  width: 1,
-                                  height: 24,
-                                  color: Color(0xFF292D32),
-                                ),
-                              ),
-                              Expanded(
-                                child: InkWell(
-                                  onTap: _showFilterScreen,
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(vertical: 16),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.filter_list,
-                                            color: Color(0xFF292D32)),
-                                        SizedBox(width: 8),
-                                        Text(
-                                          'Filter',
-                                          style: TextStyle(
-                                            color: Color(0xFF292D32),
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                  padding: EdgeInsets.symmetric(vertical: 16),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.sort,
+                                          color: Color(0xFF292D32)),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        _selectedSortOption,
+                                        style: TextStyle(
+                                          color: Color(0xFF292D32),
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            Center(
+                              child: Container(
+                                width: 1,
+                                height: 24,
+                                color: Color(0xFF292D32),
+                              ),
+                            ),
+                            Expanded(
+                              child: InkWell(
+                                onTap: _showFilterScreen,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 16),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.filter_list,
+                                          color: Color(0xFF292D32)),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'Filter',
+                                        style: TextStyle(
+                                          color: Color(0xFF292D32),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
                     ],
                   ),
                 ),
